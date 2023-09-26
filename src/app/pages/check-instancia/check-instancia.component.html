@@ -23,7 +23,7 @@
               <td *ngIf="instance.status==1">DISPONIBLE</td>
               <td *ngIf="instance.status==0">NO DISPONIBLE</td>
               <td *ngIf="instance.status==1"><button type="button" class="btn btn-outline-success p-0"
-                  (click)="openModalProgress(instance,load)" data-toggle="tooltip" data-placement="bottom"
+                  (click)="openModalProgress(instance,load,modalInstance)" data-toggle="tooltip" data-placement="bottom"
                   title="VER REPORTE">
                   <mat-icon>visibility</mat-icon></button></td>
               <td *ngIf="instance.status==0"></td>
@@ -37,8 +37,8 @@
     </div>
   </div>
 </div>
-
-<ng-template #load let-modal>
+<!-- ------------------------MODAL LOAD------------------------------------- -->
+<ng-template #load let-load>
  
 <div class="modal-body text-center ">
   <h2 class=" mt-3 ">VALIDANDO INSTANCIAS</h2>
@@ -47,11 +47,11 @@
 
 </ng-template>
 
-
-<ng-template #modalInstance let-modal>
+<!-- ------------------------MODAL REPORT------------------------------------- -->
+<ng-template #modalInstance let-modalInstance>
   <div class="modal-header">
 
-    <h2 class=" mt-3 ">REPORTE</h2>
+    <h2 class=" mt-3 ">REPORTE: {{"("+instance.ip+")   "+instance.nameInstance}}</h2>
 
 
     <div class="row justify-content-end">
@@ -60,7 +60,33 @@
 
   </div>
   <div class="modal-body ">
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow p-3 mb-5 bg-white rounded" >
+      <div class="card-body text-center">
+       <h3><b>INSTACIAS ESTADO GOOD: {{repEstGoog.length}}</b></h3>
+       <button type="button" class="btn btn-success" (click)="exportPdf('Good')">EXPORTAR REPORTE</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow p-3 mb-5 bg-white rounded" >
+      <div class="card-body text-center">
+        <h3><b>INSTANCIAS ESTADO DISABLED: {{repEstDisabled.length}}</b></h3>
+        <button type="button" class="btn btn-warning" (click)="exportPdf('Disabled')">EXPORTAR REPORTE</button>
 
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow p-3 mb-5 bg-white rounded" >
+      <div class="card-body text-center">
+        <h3> <b>INSTACIAS ESTADO ERROR: {{repEstError.length}}</b></h3>
+        <button type="button" class="btn btn-danger" (click)="exportPdf('Error')">EXPORTAR REPORTE</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

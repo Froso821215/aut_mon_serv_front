@@ -30,7 +30,7 @@ export class CheckInstanciaService {
   }
 
   getInstances(): Observable<IInstance[]> {
-    return this.http.get<IInstance[]>("http://localhost:7008/aut/instanc",{headers:this.httpHeaders})
+    return this.http.get<IInstance[]>(this.urlBase+"aut/instanc",{headers:this.httpHeaders})
     .pipe(catchError((error) => {
       this.handleError(error)
       return throwError(() => error);
@@ -38,11 +38,17 @@ export class CheckInstanciaService {
   }
 
   getReportGen(instance:IInstance): Observable<IReportGen[]> {
-    return this.http.post<IReportGen[]>("http://localhost:7008/aut",instance,{headers:this.httpHeaders})
+    return this.http.post<IReportGen[]>(this.urlBase+"aut",instance,{headers:this.httpHeaders})
     .pipe(catchError((error) => {
       this.handleError(error)
       return throwError(() => error);
     }))
   }
+
+  exportPdf(listReport:IReportGen[]): Observable<any> {
+    const headers=new HttpHeaders().set('Content-Type','application/json');
+    return this.http.post(this.urlBase+"aut/ex_pdf",listReport,{headers:this.httpHeaders,responseType:'blob' as 'json'})
+  }
+ 
 
 }
